@@ -123,8 +123,6 @@ class UserPlaylistResource:
         :return: True if successful, False otherwise
         """
 
-        # @TODO: this should be defined as part of the SQL schema instead of the conditional insert
-        # Should instead check that a playlistId doesn't exist for this yet assuming they're UUID
         sql = """
         insert into PlaylistAccess.UserPlaylist
         select %s, %s

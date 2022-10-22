@@ -61,14 +61,20 @@ def removeUserFromPlaylist(playlistId, userId, userIdToRemove):
 
 @app.route("/api/playlistaccess/<playlistId>/create/<userId>", methods=["POST"])
 def createPlaylistForUser(playlistId, userId):
+    request_inputs = rest_utils.RESTContext(request)
+
+    res = UserPlaylistResource.createPlaylistForUser(userId, playlistId)
+    rsp = Response(json.dumps(f"{'success' if res else 'failure'}"),
+                   status=201, content_type="text/plain")
+    return rsp
 
 
 @app.route("/api/user/<userId>", methods=["POST"])
 def createUser(userId):
     request_inputs = rest_utils.RESTContext(request)
-    firstName = request.args.get("firstName")
-    lastName = request.args.get("lastName")
-    email = request.args.get("email")
+    firstName = request.form.get("firstName")
+    lastName = request.form.get("lastName")
+    email = request.form.get("email")
 
     res = UserResource.createUser(userId, firstName, lastName, email)
     rsp = Response(json.dumps(f"{'success' if res else 'failure'}"),
@@ -78,7 +84,7 @@ def createUser(userId):
 @app.route("/api/playlist/<playlistId>", methods=["POST"])
 def createPlaylist(playlistId):
     request_inputs = rest_utils.RESTContext(request)
-    name = request.args.get("name")
+    name = request.form.get("name")
 
     res = PlaylistResource.createPlaylist(playlistId, name)
     rsp = Response(json.dumps(res), status=200, content_type="application/json")
