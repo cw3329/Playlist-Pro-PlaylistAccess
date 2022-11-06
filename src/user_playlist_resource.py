@@ -1,6 +1,10 @@
 import pymysql
 import os
 
+from utils import get_count_from_cursor_execution
+from user_resource import UserResource
+from playlist_resource import PlaylistResource
+
 class UserPlaylistResource:
     def __init__(self):
         pass
@@ -39,7 +43,7 @@ class UserPlaylistResource:
 
         try:
             cursor.execute(sql, (userId, playlistId))
-            num_rows = cursor.fetchone()[0]
+            num_rows = get_count_from_cursor_execution(cursor)
             return num_rows != 0
         except:
             return False
@@ -113,15 +117,52 @@ class UserPlaylistResource:
             return False
 
     @staticmethod
-    def createPlaylistForUser(userId, playlistId):
+    def createPlaylistForUser(userId, playlistId, kwargs):
         """
-        Creates a playlist for a user. This is creating the shared "UserPlaylist" table
-        from an existing userId and existing playlistId
+        Creates a playlist for a user. This is creating the shared "UserPlaylist" table.
+
+        If the userId doesn't exist yet you can provide arguments:
+            firstName, lastName, email
+
+        If the playlistId doesn't exist yet you can provide arguments:
+            playlistName
 
         :param userId: user ID to create for
         :param playlistId: playlist ID
+        :param kwargs: dictionary of arguments
         :return: True if successful, False otherwise
         """
+
+        user_required_args = ['firstName', 'lastName', 'email']
+        playlist_required_args = ['playlistName']
+        required_args = set()
+        user_exists = playlist_exists = True
+
+        if not UserResource.doesUserExist(userId):
+            user_exists = False
+            required_args |= set(user_required_args)
+        if not PlaylistResource.doesPlaylistExist(playlistId):
+            playlist_exists = False
+            required_args |= set(playlist_required_args)
+
+        # Make sure the required arguments were passed
+        if not all(key in set(kwargs.keys()) for key in required_args):
+            return False
+
+        try:
+            if not user_exists:
+                if not UserResource.createUser(userId, *list(map(kwargs.get, user_required_args))):
+                    return False
+        except:
+            return False  # May happen if there aren't proper args
+        try:
+            if not playlist_exists:
+                if not PlaylistResource.createPlaylist(playlistId, *list(map(kwargs.get, playlist_required_args))):
+                    UserResource._remove_user(userId)
+                    return False
+        except:
+            return False  # May happen if there aren't proper args
+
 
         sql = """
         insert into PlaylistAccess.UserPlaylist
@@ -165,6 +206,3 @@ class UserPlaylistResource:
             return True
         except:
             return False
-
-
-

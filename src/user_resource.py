@@ -1,5 +1,6 @@
 import pymysql
 import os
+from utils import get_count_from_cursor_execution
 
 
 class UserResource:
@@ -61,4 +62,36 @@ class UserResource:
         except:
             return False
 
+    @staticmethod
+    def doesUserExist(userId):
+        sql = """
+        select count(*)
+        from PlaylistAccess.User
+        where id=%s;
+        """
 
+        conn = UserResource._get_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute(sql, (userId))
+            count = get_count_from_cursor_execution(cursor)
+            cursor.close()
+            return count != 0
+        except:
+            return False
+
+    @staticmethod
+    def _remove_user(userId):
+        sql = """
+        DELETE FROM PlaylistAccess.User WHERE id=%s;
+        """
+
+        conn = UserResource._get_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute(sql, (userId))
+            conn.commit()
+        except:
+            pass

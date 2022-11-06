@@ -1,5 +1,6 @@
 import pymysql
 import os
+from utils import get_count_from_cursor_execution
 
 class PlaylistResource:
     def __init__(self):
@@ -37,6 +38,25 @@ class PlaylistResource:
         #@TODO - remove debug print
         except Exception as e:
             print(e)
+            return False
+
+    @staticmethod
+    def doesPlaylistExist(playlistId):
+        sql = """
+        select count(*)
+        from PlaylistAccess.Playlist
+        where id=%s;
+        """
+
+        conn = PlaylistResource._get_connection()
+        cursor = conn.cursor()
+
+        try:
+            cursor.execute(sql, (playlistId))
+            count = get_count_from_cursor_execution(cursor)
+            cursor.close()
+            return count != 0
+        except:
             return False
 
     @staticmethod
