@@ -29,8 +29,8 @@ jobs:
           DBUSER: ${{ secrets.DBUSER }}
           DBHOST: ${{ secrets.DBHOST }}
           DBPW: ${{ secrets.DBPW }}
-        working-directory: /home/${{ secrets.USERNAME }}/PlaylistAccess
         run: |
+          cd /home/${{ secrets.USERNAME }}/PlaylistAccess
           ls -l /home/${{ secrets.USERNAME }}/PlaylistAccess
           python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
