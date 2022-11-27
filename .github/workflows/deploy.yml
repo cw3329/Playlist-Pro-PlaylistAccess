@@ -15,16 +15,7 @@ jobs:
       - name: Checkout files
         uses: actions/checkout@v3
       
-      - name: Deploy to instance
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.DIRECTORY }}
-          
-
-      - name: Setup instance
+      - name: Setup
         env:
           DBUSER: ${{ secrets.DBUSER }}
           DBHOST: ${{ secrets.DBHOST }}
@@ -35,5 +26,16 @@ jobs:
           python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
           screen -dmS app python3 ./src/application.py
+
+      - name: Deploy to instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.DIRECTORY }}
+          
+
+      
 
 
