@@ -27,7 +27,7 @@ jobs:
           DBPW: ${{ secrets.DBPW }}
 
       - name: Setup instance
-        working-directory: ${{ secrets.DIRECTORY }}
+        working-directory: /home/ec2-user/PlaylistAccess
         run: |
           python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
