@@ -29,6 +29,7 @@ jobs:
       - name: Setup instance
         working-directory: /home/ec2-user/PlaylistAccess
         run: |
+          ls -l /home/ec2-user/PlaylistAccess
           python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
           screen -dmS app python3 ./src/application.py
