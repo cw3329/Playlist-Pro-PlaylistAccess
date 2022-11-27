@@ -29,8 +29,8 @@ jobs:
           DBHOST: ${{ secrets.DBHOST }}
           DBPW: ${{ secrets.DBPW }}
         run: |
-          screen -dmS app python3 ./src/application.py
-          
+          python3 ./src/application.py
+
       - name: Deploy to instance
         uses: easingthemes/ssh-deploy@main
         env:
