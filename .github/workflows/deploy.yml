@@ -29,9 +29,6 @@ jobs:
           DBHOST: ${{ secrets.DBHOST }}
           DBPW: ${{ secrets.DBPW }}
         run: |
-          cd /home/${{ secrets.USERNAME }}/PlaylistAccess
-          ls -l /home/${{ secrets.USERNAME }}/PlaylistAccess
-          python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
           screen -dmS app python3 ./src/application.py
 
