@@ -23,14 +23,6 @@ jobs:
       - name: Install dependencies
         run: python3 -m pip install -r requirements.txt
 
-      - name: Setup
-        env:
-          DBUSER: ${{ secrets.DBUSER }}
-          DBHOST: ${{ secrets.DBHOST }}
-          DBPW: ${{ secrets.DBPW }}
-        run: |
-          screen -dmS app python3 ./src/application.py
-
       - name: Deploy to instance
         uses: easingthemes/ssh-deploy@main
         env:
@@ -38,6 +30,14 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
+
+      - name: Setup
+        env:
+          DBUSER: ${{ secrets.DBUSER }}
+          DBHOST: ${{ secrets.DBHOST }}
+          DBPW: ${{ secrets.DBPW }}
+        run: |
+          screen -dmS app python3 ./src/application.py
           
 
       
