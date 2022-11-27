@@ -96,24 +96,24 @@ def dbgPlaylist():
 
 if __name__ == '__main__':
     # @TODO: remove the test db at some point
-    import os
-    import pymysql
-    usr = os.environ.get("DBUSER")
-    pw = os.environ.get("DBPW")
-    h = os.environ.get("DBHOST")
-    conn = pymysql.connect(
-        user=usr,
-        password=pw,
-        host=h,
-        cursorclass=pymysql.cursors.DictCursor,
-        autocommit=True
-    )
-    cursor = conn.cursor()
-    with open("test_db.sql", "r") as f:
-        lines = f.read().split(";")[:-1]
-    for i, req in enumerate(lines):
-        req += ";"
-        print(req)
-        cursor.execute(req)
+    # import os
+    # import pymysql
+    # usr = os.environ.get("DBUSER")
+    # pw = os.environ.get("DBPW")
+    # h = os.environ.get("DBHOST")
+    # conn = pymysql.connect(
+    #     user=usr,
+    #     password=pw,
+    #     host=h,
+    #     cursorclass=pymysql.cursors.DictCursor,
+    #     autocommit=True
+    # )
+    # cursor = conn.cursor()
+    # with open("test_db.sql", "r") as f:
+    #     lines = f.read().split(";")[:-1]
+    # for i, req in enumerate(lines):
+    #     req += ";"
+    #     print(req)
+    #     cursor.execute(req)
 
-    app.run(host="0.0.0.0", port=5012)
+    app.run(host="0.0.0.0", port=5011)
