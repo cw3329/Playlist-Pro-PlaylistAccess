@@ -10,6 +10,9 @@ jobs:
   build:
     name: Deploy to EC2 when push happens to master branch
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ secrets.DIRECTORY }}
     steps:
       - name: Checkout files
         uses: actions/checkout@v3
@@ -24,7 +27,8 @@ jobs:
           DBUSER: ${{ secrets.DBUSER }}
           DBHOST: ${{ secrets.DBHOST }}
           DBPW: ${{ secrets.DBPW }}
-        working-directory: ${{ secrets.DIRECTORY }}
+
+      - name: Setup instance
         run: |
           python3 -m pip install -r ./requirements.txt
           screen -S app -X quit
