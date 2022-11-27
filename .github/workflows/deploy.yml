@@ -29,7 +29,6 @@ jobs:
           DBHOST: ${{ secrets.DBHOST }}
           DBPW: ${{ secrets.DBPW }}
         run: |
-          screen -S app -X quit
           screen -dmS app python3 ./src/application.py
 
       - name: Deploy to instance
