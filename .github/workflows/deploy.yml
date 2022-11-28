@@ -31,6 +31,7 @@ jobs:
           TARGET: ${{ secrets.DIRECTORY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo setting up ssh
           ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.84.232.64 "
             cd ${TARGET} &&
             git pull &&
