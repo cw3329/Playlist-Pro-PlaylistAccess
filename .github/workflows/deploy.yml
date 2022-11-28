@@ -23,14 +23,6 @@ jobs:
       - name: Install dependencies
         run: python3 -m pip install -r requirements.txt
 
-      - name: Setup
-        env:
-          DBUSER: ${{ secrets.DBUSER }}
-          DBHOST: ${{ secrets.DBHOST }}
-          DBPW: ${{ secrets.DBPW }}
-        run: |
-          python3 ./src/application.py
-
       - name: Deploy to instance
         uses: easingthemes/ssh-deploy@main
         env:
