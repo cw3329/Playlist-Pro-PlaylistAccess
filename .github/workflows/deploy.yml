@@ -33,8 +33,10 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           echo setting up ssh
           ssh -o StrictHostKeyChecking=no -i private_key ec2-user@3.84.232.64 "
+            cd ${TARGET}/.. &&
+            sudo rm -rf ${TARGET} &&
+            git clone https://github.com/cw3329/Playlist-Pro-PlaylistAccess.git ${TARGET} &&
             cd ${TARGET} &&
-            git pull &&
             python3 -m pip install -r requirements.txt &&
             sudo -S systemctl restart gunicorn "
       # - name: Deploy to instance
