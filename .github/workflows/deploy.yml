@@ -26,8 +26,8 @@ jobs:
       - name: Setup
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
+          # REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          # REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
