@@ -39,5 +39,8 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
 
+      - name: Start session
+        run: |
+          sudo -S systemctl restart gunicorn
       
           

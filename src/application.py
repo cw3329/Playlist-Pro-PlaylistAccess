@@ -7,6 +7,8 @@ from user_resource import UserResource
 from playlist_resource import PlaylistResource
 from flask_cors import CORS
 
+__VERSION__ = 1 # For testing
+
 # Create the Flask application object.
 app = Flask(__name__,
             static_url_path='/',
@@ -98,9 +100,11 @@ if __name__ == '__main__':
     # @TODO: remove the test db at some point
     # import os
     # import pymysql
+    # import os
     # usr = os.environ.get("DBUSER")
     # pw = os.environ.get("DBPW")
     # h = os.environ.get("DBHOST")
+    # print(usr, h)
     # conn = pymysql.connect(
     #     user=usr,
     #     password=pw,
