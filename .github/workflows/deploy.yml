@@ -32,7 +32,12 @@ jobs:
           TARGET: ${{ secrets.DIRECTORY }}
 
       - name: Start session
-        run: |
-          sudo -S systemctl restart gunicorn
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          scripts: /bin/sh deploy.sh
       
           
