@@ -23,21 +23,30 @@ jobs:
       - name: Install dependencies
         run: python3 -m pip install -r requirements.txt
 
-      - name: Deploy to instance
-        uses: easingthemes/ssh-deploy@main
+      - name: Setup
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@{REMOTE_HOST} ""
+            cd ${TARGET} &&
+            git pull &&
+            python3 -m pip install -r requirements.txt &&
+            sudo -S systemctl restart gunicorn "
+      # - name: Deploy to instance
+      #   uses: easingthemes/ssh-deploy@main
+      
 
-      - name: Start session
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          scripts: /bin/sh deploy.sh
+      # - name: Start session
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST_DNS }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     port: 22
+      #     scripts: /bin/sh deploy.sh
       
           
