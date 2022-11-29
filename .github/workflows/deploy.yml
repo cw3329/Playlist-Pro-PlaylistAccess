@@ -26,13 +26,13 @@ jobs:
       - name: Setup
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          # REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          # REMOTE_USER: ${{ secrets.USERNAME }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.DIRECTORY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
           echo setting up ssh
-          ssh -o StrictHostKeyChecking=no -i private_key ec2-user@34.238.42.14 "
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST} "
             cd ${TARGET}/.. &&
             sudo rm -rf ${TARGET} &&
             git clone https://github.com/cw3329/Playlist-Pro-PlaylistAccess.git ${TARGET} &&
