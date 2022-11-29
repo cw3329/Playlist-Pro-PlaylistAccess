@@ -7,7 +7,7 @@ from user_resource import UserResource
 from playlist_resource import PlaylistResource
 from flask_cors import CORS
 
-__VERSION__ = 2 # For testing
+__VERSION__ = '1.0' # For testing
 
 # Create the Flask application object.
 app = Flask(__name__,
@@ -23,7 +23,8 @@ def get_health():
     msg = {
         "name": "PlaylistAccess Microservice",
         "health": "Good",
-        "at time": t
+        "at time": t,
+        "version": __VERSION__
     }
 
     # DFF TODO Explain status codes, content type, ... ...
