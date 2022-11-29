@@ -7,7 +7,7 @@ from user_resource import UserResource
 from playlist_resource import PlaylistResource
 from flask_cors import CORS
 
-__VERSION__ = '1.0' # For testing
+__VERSION__ = '1.1' # For testing
 
 # Create the Flask application object.
 app = Flask(__name__,
