@@ -201,8 +201,8 @@ class UserPlaylistResource:
             cursor.execute(sql)
             r = cursor.fetchall()
             df = pd.DataFrame(r)
-            print(df)
+            print(r)
             cursor.close()
-            return True
+            return r
         except:
             return False
